@@ -19,7 +19,7 @@ public class Player {
     private static final int INITIAL_POINTS = 100;
     private static final byte INITIAL_AGE = 18;
     private static final Sex DEFAULT_SEX = Sex.NOTDEFINED;
-    private static final byte MAX_CARDS = 0;
+    private static final byte MAX_CARDS = 2;
 
 
     // Constructors
@@ -184,7 +184,7 @@ public class Player {
      * @return true if the points are increased
      */
     public boolean increasePoints(int points) {
-        if (active && points > 0 && cards < 2) {
+        if (active && points > 0 && cards < MAX_CARDS) {
             this.points += points;
             return true;
         }
@@ -199,7 +199,7 @@ public class Player {
      * @return true if the points are decreased
      */
     public boolean decreasePoints(int points) {
-        if (active && cards < 2 && points > 0) {
+        if (active && cards < MAX_CARDS && points > 0) {
             this.points -= points;
 
             if (this.points < 0) {
@@ -218,9 +218,9 @@ public class Player {
      * @return true if player get a new card
      */
     public boolean giveCard() {
-        if (active && cards < 2) {
+        if (active && cards < MAX_CARDS) {
             this.cards++;
-            if (cards >= 2) {
+            if (cards >= MAX_CARDS) {
                 active = false;
             }
             return true;
