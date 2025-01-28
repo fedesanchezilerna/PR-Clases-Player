@@ -120,7 +120,7 @@ public class Player {
     }
 
     public void setAge(byte age) {
-        this.age = age;
+        this.age = (age < INITIAL_AGE) ? INITIAL_AGE : age;
     }
 
     public Sex getSex() {
@@ -128,7 +128,7 @@ public class Player {
     }
 
     public void setSex(Sex sex) {
-        this.sex = sex;
+        this.sex = sex == null ? DEFAULT_SEX : sex;
     }
 
     public int getPoints() {
@@ -136,7 +136,7 @@ public class Player {
     }
 
     public void setPoints(int points) {
-        this.points = points;
+        this.points = Math.max(points, INITIAL_POINTS);
     }
 
     public Team getTeam() {
@@ -172,6 +172,7 @@ public class Player {
     }
 
     // Methods
+
     /**
      * Increase points if player is active and cards < 2
      *
@@ -179,10 +180,13 @@ public class Player {
      * @return true if the points are increased
      */
     public boolean increasePoints(int points) {
+        if (active && points > 0 && cards < 2) {
+            this.points += points;
+            return true;
+        }
 
         return false;
     }
-
 
     /**
      * Decrease points of player, only if the player is active, cards < 2 and points are > 0
@@ -191,6 +195,10 @@ public class Player {
      * @return true if the points are decreased
      */
     public boolean decreasePoints(int points) {
+        if (active && cards < 2 && points > 0) {
+            this.points -= points;
+            return true;
+        }
 
         return false;
     }
@@ -201,6 +209,22 @@ public class Player {
      * @return true if player get a new card
      */
     public boolean giveCard() {
+        if (active && cards < 2) {
+            this.cards++;
+            if (cards >= 2) {
+                active = false;
+            }
+            return true;
+        }
+
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "PLAYER: %-11s %-11s %-10.2f %-10.2f %-10d %-11s %-10d %-10s %-11s %-10b %-10d",
+                name, surname, height, weight, age, sex, points, team, position, active, cards
+        );
     }
 }
