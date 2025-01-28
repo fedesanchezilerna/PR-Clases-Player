@@ -3,7 +3,6 @@ package playerEnum;
 public class Player {
 
     // Attributes
-
     private String name;
     private String surname;
     private float height;
@@ -16,56 +15,74 @@ public class Player {
     private boolean active;
     private byte cards;
 
-    static final int INITIAL_POINTS = 0;
-    static final byte INITIAL_AGE = 0;
-    static final byte MAX_CARDS = 0;
+    // Default values
+    private static final int INITIAL_POINTS = 100;
+    private static final byte INITIAL_AGE = 18;
+    private static final Sex DEFAULT_SEX = Sex.NOTDEFINED;
+    private static final byte MAX_CARDS = 0;
 
 
     // Constructors
-
     public Player(String name, String surname, float height, float weight, byte age, Sex sex, int points, Team team, Position position, boolean active) {
         this.name = name;
         this.surname = surname;
         this.height = height;
         this.weight = weight;
-        this.age = (byte) Math.max(age, 18);
-        this.sex = sex;
-        this.points = Math.min(points, 100);
+        this.age = (age < INITIAL_AGE) ? INITIAL_AGE : age;
+        this.sex = sex == null ? DEFAULT_SEX : sex;
+        this.points = Math.max(points, INITIAL_POINTS);
         this.team = team;
         this.position = position;
         this.active = active;
+        this.cards = 0;
     }
 
     public Player(String name, String surname, float height, float weight, Team team, Position position) {
-        this.name = name;
-        this.surname = surname;
-        this.height = height;
-        this.weight = weight;
-        this.team = team;
-        this.position = position;
+        this(name,
+                surname,
+                height,
+                weight,
+                INITIAL_AGE,
+                DEFAULT_SEX,
+                INITIAL_POINTS,
+                team,
+                position,
+                true
+        );
+        this.cards = 0;
     }
 
     public Player(String name, String surname, Sex sex, Team team, Position position) {
-        this.name = name;
-        this.surname = surname;
-        this.sex = sex;
-        this.team = team;
-        this.position = position;
+        this(name,
+                surname,
+                0,
+                0,
+                INITIAL_AGE,
+                sex == null ? DEFAULT_SEX : sex,
+                INITIAL_POINTS,
+                team,
+                position,
+                true
+        );
+        this.cards = 0;
     }
 
     public Player(String name, String surname, byte age, Sex sex, Team team, Position position) {
-        this.name = name;
-        this.surname = surname;
-        this.age = (byte) Math.max(age, 18);
-        this.sex = sex;
-        this.team = team;
-        this.position = position;
+        this(name,
+                surname,
+                0,
+                0,
+                (age < INITIAL_AGE) ? INITIAL_AGE : age,
+                sex == null ? DEFAULT_SEX : sex,
+                INITIAL_POINTS,
+                team,
+                position,
+                true
+        );
+        this.cards = 0;
     }
 
-
     // Getters & Setters
-
-
     public String getName() {
         return name;
     }
@@ -152,5 +169,38 @@ public class Player {
 
     public void setCards(byte cards) {
         this.cards = cards;
+    }
+
+    // Methods
+    /**
+     * Increase points if player is active and cards < 2
+     *
+     * @param points the number of points to increase
+     * @return true if the points are increased
+     */
+    public boolean increasePoints(int points) {
+
+        return false;
+    }
+
+
+    /**
+     * Decrease points of player, only if the player is active, cards < 2 and points are > 0
+     *
+     * @param points the number of points to decrease
+     * @return true if the points are decreased
+     */
+    public boolean decreasePoints(int points) {
+
+        return false;
+    }
+
+    /**
+     * Add 1 to number of cards if player is active and cards < 2
+     *
+     * @return true if player get a new card
+     */
+    public boolean giveCard() {
+        return false;
     }
 }
