@@ -23,6 +23,7 @@ public class Player {
 
 
     // Constructors
+    // #1
     public Player(String name, String surname, float height, float weight, byte age, Sex sex, int points, Team team, Position position, boolean active) {
         this.name = name;
         this.surname = surname;
@@ -37,6 +38,7 @@ public class Player {
         this.cards = 0;
     }
 
+    // #2
     public Player(String name, String surname, float height, float weight, Team team, Position position) {
         this(name,
                 surname,
@@ -52,6 +54,7 @@ public class Player {
         this.cards = 0;
     }
 
+    // #3
     public Player(String name, String surname, Sex sex, Team team, Position position) {
         this(name,
                 surname,
@@ -67,6 +70,7 @@ public class Player {
         this.cards = 0;
     }
 
+    // #4
     public Player(String name, String surname, byte age, Sex sex, Team team, Position position) {
         this(name,
                 surname,
@@ -197,6 +201,11 @@ public class Player {
     public boolean decreasePoints(int points) {
         if (active && cards < 2 && points > 0) {
             this.points -= points;
+
+            if (this.points < 0) {
+                this.points = 0;
+            }
+
             return true;
         }
 
@@ -225,6 +234,6 @@ public class Player {
         return String.format(
                 "PLAYER: %-11s %-11s %-10.2f %-10.2f %-10d %-11s %-10d %-10s %-11s %-10b %-10d",
                 name, surname, height, weight, age, sex, points, team, position, active, cards
-        );
+        ).toUpperCase();
     }
 }
